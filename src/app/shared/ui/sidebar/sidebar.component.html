@@ -1,0 +1,15 @@
+@let isLoading = loading();
+@if (isLoading) {
+  <div class="loading">
+    <p>Loading...</p>
+  </div>
+}
+
+@let categories = data();
+<ul>
+  @for (category of categories; track category) {
+    <li (click)="navigate(category)">
+      {{ category }}
+    </li>
+  }
+</ul>
