@@ -1,76 +1,58 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ProductService } from '@/app/core/services/product.service';
 import { SidebarComponent } from '@/app/shared/ui/sidebar/sidebar.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
 import { QueryParams } from '@/app/core/models/query-params.model';
-import { DEFAULT_LIMIT, limitAdapter, pageAdapter, queryAdapter } from '@/app/core/adapters/query.adapter';
+import { queryParamsAdapter } from '@/app/core/adapters/query-params.adapter';
+import { QueryParamsService } from '@/app/core/services/query-params.service';
+import { PaginatedProducts } from '@/app/core/models/product.model';
+import { combineLatestWith, map } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
-  standalone: true,
   imports: [SidebarComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ProductListComponent {
+export default class ProductListComponent implements OnInit {
   private readonly productService = inject(ProductService);
+  private readonly queryParamsService = inject(QueryParamsService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  readonly page = toSignal(this.route.queryParams.pipe(map((params: QueryParams) => pageAdapter(params))), {
-    initialValue: 1,
-  });
-
-  readonly limit = toSignal(this.route.queryParams.pipe(map((params: QueryParams) => limitAdapter(params))), {
-    initialValue: DEFAULT_LIMIT,
-  });
-
-  readonly query = toSignal(this.route.queryParams.pipe(map((params: QueryParams) => queryAdapter(params))), {
-    initialValue: '',
-  });
-
-  private readonly category = toSignal(this.route.params.pipe(map((params) => params['slug'])));
-
-  readonly queryParams = computed(() => {
-    const params: QueryParams = {};
-    if (this.query()) params['q'] = this.query();
-    if (this.page()) params['page'] = this.page();
-    if (this.limit()) params['limit'] = this.limit();
-    return params;
-  });
-
-  readonly searchUrl = computed(() => {
-    if (this.query()) return '/search';
-    if (this.category()) return `/category/${this.category()}`;
-    return '';
-  });
-
   readonly loading = this.productService.loading;
-  readonly products = toSignal(this.productService.getProducts(this.queryParams(), this.searchUrl()), {
-    initialValue: this.productService.empty,
-  });
+  readonly products = signal<PaginatedProducts>(this.productService.empty());
 
-  private updateQueryParams(params: Partial<QueryParams>): void {
-    const { queryParams } = this.route.snapshot;
-    void this.router.navigate([], {
-      queryParams: { ...queryParams, ...params },
-      queryParamsHandling: 'merge',
+  constructor() {
+    effect(() => {
+      this.productService.getProducts(this.queryParamsService.params()).subscribe((products) => {
+        this.products.set(products);
+      });
     });
   }
 
+  ngOnInit() {
+    this.route.params
+      .pipe(
+        combineLatestWith(this.route.queryParams),
+        map(([params, queryParams]) => queryParamsAdapter({ ...params, ...queryParams }))
+      )
+      .subscribe((queryParams: QueryParams) => this.queryParamsService.updateQueryParams(queryParams));
+  }
+
   nextPage(): void {
-    this.updateQueryParams({ page: this.page() + 1 });
+    const { total, skip, limit } = this.products();
+    const { page } = this.queryParamsService.params();
+    const next = skip + limit < total;
+    if (!page || !next) return;
+
+    this.queryParamsService.updateQueryParams({ page: page + 1 });
   }
 
   previousPage(): void {
-    const current = this.page();
-    if (current <= 1) return;
-    this.updateQueryParams({ page: current - 1 });
-  }
-
-  changeLimit(limit: QueryParams['limit']): void {
-    this.updateQueryParams({ limit });
+    const { page } = this.queryParamsService.params();
+    if (!page || page <= 1) return;
+    this.queryParamsService.updateQueryParams({ page: page - 1 });
   }
 }

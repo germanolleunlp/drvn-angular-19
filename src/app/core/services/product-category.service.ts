@@ -1,9 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@/environments/environment';
-import { catchError, defer, finalize, Observable, of, tap } from 'rxjs';
+import { catchError, defer, finalize, map, Observable, of } from 'rxjs';
 import { ProductCategory } from '@/app/core/models/product-category.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
+import { categoryListAdapter } from '@/app/core/adapters/category-list-adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class ProductCategoryService {
           this._loading.set(false);
         })
       );
-    });
+    }).pipe(map((slugs) => categoryListAdapter(slugs)));
   }
 
   readonly categoryList = toSignal(this.getCategoryList(), {

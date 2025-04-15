@@ -44,6 +44,7 @@ module.exports = [
         },
       ],
       'import/order': 'off',
+      'no-unused-vars': 'off',
       '@typescript-eslint/no-explicit-any': ['off'],
       '@typescript-eslint/member-ordering': 0,
       '@typescript-eslint/naming-convention': 0,
@@ -51,6 +52,16 @@ module.exports = [
       '@angular-eslint/no-output-on-prefix': 'off',
       '@typescript-eslint/ban-types': 'off',
       '@typescript-eslint/no-inferrable-types': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
     },
   },
   {

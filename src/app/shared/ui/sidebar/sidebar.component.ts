@@ -1,13 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ProductCategoryService } from '@/app/core/services/product-category.service';
 import { Router } from '@angular/router';
 import { ProductCategory } from '@/app/core/models/product-category.model';
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
   private readonly productCategoryService = inject(ProductCategoryService);
