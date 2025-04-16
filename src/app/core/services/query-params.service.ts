@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { QueryParams } from '@/app/core/models/query-params.model';
-import { DEFAULT_LIMIT } from '@/app/shared/constants';
+import { ALL_CATEGORY, DEFAULT_LIMIT } from '@/app/shared/constants';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -14,12 +14,19 @@ export class QueryParamsService {
     limit: DEFAULT_LIMIT,
   });
 
+  private get commands(): any[] {
+    const { category, q } = this.params();
+    if (category == ALL_CATEGORY) return [];
+    if (q) return ['products'];
+    return [];
+  }
+
   updateQueryParams(queryParams: Partial<QueryParams>): void {
     const params = { ...this.params(), ...queryParams };
     this.params.set(params);
 
-    const { category: _category, ...rest } = params;
-    void this.router.navigate([], {
+    const { category: _ignore, ...rest } = params;
+    void this.router.navigate(this.commands, {
       queryParams: rest,
       queryParamsHandling: 'merge',
     });

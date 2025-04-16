@@ -1,1 +1,42 @@
-<p>products-table works!</p>
+@let dataSource = data();
+
+<div>
+  <app-search-input />
+  <button (click)="previousPage()"><<</button>
+  <span>Page: {{ params.page }}</span>
+  <button (click)="nextPage()">>></button>
+  <select (change)="onChangeLimit($event)">
+    @for (limit of limits; track limit) {
+      <option [value]="limit" [selected]="params.limit === limit">{{ limit }}</option>
+    }
+  </select>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">image</th>
+      <th scope="col">name</th>
+      <th scope="col">brand</th>
+      <th scope="col">price</th>
+      <th scope="col">stock</th>
+      <th scope="col">rating</th>
+      <th scope="col">actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (product of dataSource.products; track product.id) {
+      <tr>
+        <th scope="row">{{ product.id }}</th>
+        <td><img src="{{ product.thumbnail }}" alt="{{ product.title }}" /></td>
+        <td>{{ product.title }}</td>
+        <td>{{ product.brand }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.stock }}</td>
+        <td>{{ product.rating }}</td>
+        <td></td>
+      </tr>
+    }
+  </tbody>
+</table>
