@@ -1,0 +1,128 @@
+.product-card {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  background-color: #191919;
+  color: white;
+  padding: 30px;
+  border: 1px solid white;
+  border-radius: 8px;
+  overflow: auto;
+  margin: 30px auto;
+
+  .product-images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    flex: 1;
+
+    .image-gallery {
+      display: flex;
+      gap: 10px;
+
+      img {
+        border: 1px solid white;
+        border-radius: 50%;
+        background-color: #323232;
+      }
+    }
+  }
+
+  .product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 2;
+
+    .title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      font-style: oblique;
+    }
+
+    .price-rating {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .price {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .original-price {
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        .discount {
+          color: #e63946;
+          font-weight: bold;
+        }
+      }
+
+      .rating {
+        background-color: #f1c40f;
+        padding: 6px 16px;
+        border-radius: 14px;
+        font-weight: bold;
+        color: black;
+      }
+    }
+
+    .details p,
+    .meta p {
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    .meta {
+      border-top: 1px solid white;
+      padding-top: 8px;
+    }
+
+    .tags {
+      margin-bottom: 14px;
+      display: flex;
+      gap: 14px;
+
+      .tag {
+        background-color: white;
+        color: black;
+        padding: 4px 14px;
+        border-radius: 14px;
+        font-size: 12px;
+      }
+    }
+
+    .reviews {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      h3 {
+        margin-bottom: 8px;
+      }
+
+      .review {
+        background: white;
+        color: black;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 14px;
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+
+    .qr {
+      margin: 12px 0;
+    }
+  }
+}

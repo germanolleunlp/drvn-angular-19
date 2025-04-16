@@ -3,7 +3,7 @@
 @if (loading()) {
   <p>Loading...</p>
 } @else if (product) {
-  {{ product.title }}
+  <app-product-card [product]="product" />
 } @else {
   <p>Missing product # {{ productId() }}</p>
 }

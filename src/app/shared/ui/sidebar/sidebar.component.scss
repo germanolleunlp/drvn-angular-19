@@ -10,6 +10,7 @@
     cursor: pointer;
     font-weight: 300;
     &:hover, &:focus, &.active {
+      color: #6ee7b7;
       font-weight: 600;
     }
   }

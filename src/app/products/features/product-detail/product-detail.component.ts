@@ -4,12 +4,12 @@ import { QueryParamsService } from '@/app/core/services/query-params.service';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { ProductCardComponent } from '@/app/products/ui/product-card/product-card.component';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [],
+  imports: [ProductCardComponent],
   templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProductDetailComponent {

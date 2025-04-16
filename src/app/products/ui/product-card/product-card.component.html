@@ -1,0 +1,66 @@
+@let p = product();
+
+<div class="product-card">
+  <div class="product-images">
+    <img [ngSrc]="p.thumbnail" [alt]="p.title" width="300" height="300" />
+    <div class="image-gallery">
+      @for (img of p.images; track img) {
+        <img [ngSrc]="img" alt="Product image" width="100" height="100" />
+      }
+    </div>
+  </div>
+
+  <div class="product-info">
+    <h1 class="title" [style]="p.stock | stock">{{ p.title }}</h1>
+    <p class="description">{{ p.description }}</p>
+
+    @if (p.tags.length > 0) {
+      <div class="tags">
+        @for (tag of p.tags; track tag) {
+          <span class="tag">{{ tag }}</span>
+        }
+      </div>
+    }
+
+    <div class="price-rating">
+      <div class="price">
+        <span class="original-price">{{ p.price | currency }}</span>
+        <span class="discount">{{ p.discountPercentage }}% OFF</span>
+      </div>
+      <div class="rating">Rating / {{ p.rating }}</div>
+    </div>
+
+    <div class="details">
+      <p><strong>Category:</strong> {{ p.category }}</p>
+      <p><strong>Brand:</strong> {{ p.brand }}</p>
+      <p><strong>SKU:</strong> {{ p.sku }}</p>
+      <p><strong>Weight:</strong> {{ p.weight }} oz</p>
+      <p>
+        <strong>Dimensions:</strong> {{ p.dimensions.width }}" x {{ p.dimensions.height }}" x {{ p.dimensions.depth }}"
+      </p>
+      <p><strong>Stock:</strong> {{ p.stock }} (Min: {{ p.minimumOrderQuantity }})</p>
+      <p><strong>Status:</strong> {{ p.availabilityStatus }}</p>
+    </div>
+
+    <div class="meta">
+      <p><strong>Warranty:</strong> {{ p.warrantyInformation }}</p>
+      <p><strong>Shipping:</strong> {{ p.shippingInformation }}</p>
+      <p><strong>Return Policy:</strong> {{ p.returnPolicy }}</p>
+      <p><strong>Barcode:</strong> {{ p.meta.barcode }}</p>
+      <img class="qr" [ngSrc]="p.meta.qrCode" alt="QR Code" width="100" height="100" />
+    </div>
+
+    @if (p.reviews.length > 0) {
+      <div class="reviews">
+        <h3>Customer Reviews</h3>
+        @for (review of p.reviews; track review.reviewerName) {
+          <div class="review">
+            <p>
+              <strong>{{ review.reviewerName }}</strong> ({{ review.rating }}): {{ review.comment }}
+            </p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
