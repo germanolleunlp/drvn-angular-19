@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { catchError, defer, finalize, Observable, of } from 'rxjs';
-import { PaginatedProducts } from '@/app/core/models/product.model';
+import { PaginatedProducts, Product } from '@/app/core/models/product.model';
 import { QueryParams } from '@/app/core/models/query-params.model';
 import { ALL_CATEGORY, DEFAULT_LIMIT } from '@/app/shared/constants';
 
@@ -49,6 +49,22 @@ export class ProductService {
             this._loading.set(false);
           })
         );
+    });
+  }
+
+  getProduct(id: Product['id']): Observable<Product | null> {
+    return defer(() => {
+      this._loading.set(true);
+
+      return this.http.get<Product>(`${this.baseUrl}/${id}`).pipe(
+        catchError((error) => {
+          console.error('Error fetching product:', error);
+          return of(null);
+        }),
+        finalize(() => {
+          this._loading.set(false);
+        })
+      );
     });
   }
 }
