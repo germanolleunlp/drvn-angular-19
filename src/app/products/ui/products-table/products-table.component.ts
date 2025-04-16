@@ -3,10 +3,14 @@ import { QueryParamsService } from '@/app/core/services/query-params.service';
 import { PaginatedProducts } from '@/app/core/models/product.model';
 import { LIMITS } from '@/app/shared/constants';
 import { SearchInputComponent } from '@/app/shared/ui/search-input/search-input.component';
+import { CurrencyPipe } from '@/app/pipes/currency.pipe';
+import { ProductImageComponent } from '@/app/shared/ui/product-image/product-image.component';
+import { StockPipe } from '@/app/pipes/stock.pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products-table',
-  imports: [SearchInputComponent],
+  imports: [SearchInputComponent, CurrencyPipe, ProductImageComponent, StockPipe, RouterLink],
   templateUrl: './products-table.component.html',
   styleUrl: './products-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

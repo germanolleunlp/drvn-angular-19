@@ -1,0 +1,17 @@
+<fieldset>
+  <legend>Currency:</legend>
+
+  @for (currency of currencies; track currency) {
+    <div>
+      <input
+        type="radio"
+        [id]="currency"
+        [name]="currency"
+        [value]="currency"
+        [checked]="currency.toString() === current().toString()"
+        (click)="onChange($event)"
+      />
+      <label [for]="currency">{{ currency }}</label>
+    </div>
+  }
+</fieldset>

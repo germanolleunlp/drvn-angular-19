@@ -1,12 +1,5 @@
-<aside>
-  <app-sidebar />
-</aside>
-<div>
-  @if (loading()) {
-    <div class="loading">
-      <p>Loading...</p>
-    </div>
-  } @else {
-    <app-products-table [data]="products()" />
-  }
-</div>
+@if (loading()) {
+  <p>Loading...</p>
+} @else {
+  <app-products-table [data]="products()" />
+}

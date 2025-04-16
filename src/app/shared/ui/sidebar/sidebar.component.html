@@ -1,15 +1,17 @@
 @let isLoading = loading();
-@if (isLoading) {
-  <div class="loading">
-    <p>Loading...</p>
-  </div>
-}
+@let current = category();
 
-@let categories = data();
-<ul>
-  @for (category of categories; track category) {
-    <li (click)="navigate(category)">
-      {{ category }}
-    </li>
+<div class="sidebar">
+  @if (isLoading) {
+    <p>Loading...</p>
   }
-</ul>
+
+  @let categories = data();
+  <ul>
+    @for (category of categories; track category) {
+      <li (click)="navigate(category)" [class]="category === current ? 'active' : ''">
+        {{ category }}
+      </li>
+    }
+  </ul>
+</div>

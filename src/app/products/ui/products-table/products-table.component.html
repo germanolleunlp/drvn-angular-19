@@ -1,15 +1,23 @@
 @let dataSource = data();
 
-<div>
+<div class="tools">
   <app-search-input />
-  <button (click)="previousPage()"><<</button>
-  <span>Page: {{ params.page }}</span>
-  <button (click)="nextPage()">>></button>
-  <select (change)="onChangeLimit($event)">
-    @for (limit of limits; track limit) {
-      <option [value]="limit" [selected]="params.limit === limit">{{ limit }}</option>
-    }
-  </select>
+  <div class="pagination">
+    <label class="limit">
+      Limit:
+      <select (change)="onChangeLimit($event)">
+        @for (limit of limits; track limit) {
+          <option [value]="limit" [selected]="params.limit === limit">{{ limit }}</option>
+        }
+      </select>
+    </label>
+
+    <div class="pages">
+      <button (click)="previousPage()"><<</button>
+      <span>Page: {{ params.page }}</span>
+      <button (click)="nextPage()">>></button>
+    </div>
+  </div>
 </div>
 
 <table>
@@ -29,13 +37,15 @@
     @for (product of dataSource.products; track product.id) {
       <tr>
         <th scope="row">{{ product.id }}</th>
-        <td><img src="{{ product.thumbnail }}" alt="{{ product.title }}" /></td>
-        <td>{{ product.title }}</td>
+        <td><app-product-image [product]="product" size="small" /></td>
+        <td [style]="product.stock | stock">{{ product.title }}</td>
         <td>{{ product.brand }}</td>
-        <td>{{ product.price }}</td>
+        <td>{{ product.price | currency }}</td>
         <td>{{ product.stock }}</td>
         <td>{{ product.rating }}</td>
-        <td></td>
+        <td>
+          <a routerLink="/products/{{ product.id }}">Details</a>
+        </td>
       </tr>
     }
   </tbody>

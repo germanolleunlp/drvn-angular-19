@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { ProductService } from '@/app/core/services/product.service';
-import { SidebarComponent } from '@/app/shared/ui/sidebar/sidebar.component';
 import { ActivatedRoute } from '@angular/router';
 import { QueryParams } from '@/app/core/models/query-params.model';
 import { queryParamsAdapter } from '@/app/core/adapters/query-params.adapter';
@@ -11,12 +10,11 @@ import { ProductsTableComponent } from '@/app/products/ui/products-table/product
 
 @Component({
   selector: 'app-product-list',
-  imports: [SidebarComponent, ProductsTableComponent],
+  imports: [ProductsTableComponent],
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ProductListComponent implements OnInit {
+export default class ProductListComponent {
   private readonly productService = inject(ProductService);
   private readonly queryParamsService = inject(QueryParamsService);
   private readonly route = inject(ActivatedRoute);
@@ -30,9 +28,7 @@ export default class ProductListComponent implements OnInit {
         this.products.set(products);
       });
     });
-  }
 
-  ngOnInit() {
     this.route.params
       .pipe(
         combineLatestWith(this.route.queryParams),

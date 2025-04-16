@@ -6,7 +6,9 @@ import { QueryParamsService } from '@/app/core/services/query-params.service';
 @Component({
   selector: 'app-search-input',
   imports: [],
-  template: `<input type="search" [value]="input()" (input)="onInput($event)" placeholder="Search" />`,
+  template: `
+    <label>Search: <input type="search" [value]="input()" (input)="onInput($event)" placeholder="Search..." /></label>
+  `,
   styleUrl: './search-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
