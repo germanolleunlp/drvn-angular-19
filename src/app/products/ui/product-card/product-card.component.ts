@@ -3,10 +3,11 @@ import { Product } from '@/app/core/models/product.model';
 import { NgOptimizedImage } from '@angular/common';
 import { StockPipe } from '@/app/pipes/stock.pipe';
 import { CurrencyPipe } from '@/app/pipes/currency.pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
-  imports: [NgOptimizedImage, StockPipe, CurrencyPipe],
+  imports: [NgOptimizedImage, StockPipe, CurrencyPipe, RouterLink],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

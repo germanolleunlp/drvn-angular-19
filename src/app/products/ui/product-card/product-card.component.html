@@ -12,6 +12,7 @@
 
   <div class="product-info">
     <h1 class="title" [style]="p.stock | stock">{{ p.title }}</h1>
+    <a routerLink="/products/{{ p.id }}/edit">Edit product</a>
     <p class="description">{{ p.description }}</p>
 
     @if (p.tags.length > 0) {

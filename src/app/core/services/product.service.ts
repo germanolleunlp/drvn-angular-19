@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { catchError, defer, finalize, Observable, of } from 'rxjs';
+import { catchError, defer, delay, finalize, map, Observable, of } from 'rxjs';
 import { PaginatedProducts, Product } from '@/app/core/models/product.model';
 import { QueryParams } from '@/app/core/models/query-params.model';
 import { ALL_CATEGORY, DEFAULT_LIMIT } from '@/app/shared/constants';
@@ -60,6 +60,26 @@ export class ProductService {
         catchError((error) => {
           console.error('Error fetching product:', error);
           return of(null);
+        }),
+        finalize(() => {
+          this._loading.set(false);
+        })
+      );
+    });
+  }
+
+  updateProduct(payload: Product): Observable<Product> {
+    return defer(() => {
+      this._loading.set(true);
+
+      return of(payload).pipe(
+        delay(1000),
+        map((product) => {
+          if (product.id % 2 === 0) {
+            return product;
+          } else {
+            throw new Error('Error updating product');
+          }
         }),
         finalize(() => {
           this._loading.set(false);

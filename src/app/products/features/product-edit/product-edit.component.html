@@ -1,0 +1,9 @@
+@let product = data();
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else if (product) {
+  <app-product-form [product]="product"  />
+} @else {
+  <p>Missing product # {{ productId() }}</p>
+}

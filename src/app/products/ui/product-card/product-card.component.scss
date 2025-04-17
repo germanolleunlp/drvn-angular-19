@@ -40,6 +40,17 @@
       margin-bottom: 10px;
     }
 
+    a {
+      color: white;
+      text-decoration: none;
+      align-self: start;
+
+      &:hover {
+        text-decoration: underline;
+        font-weight: 600;
+      }
+    }
+
     .description {
       font-style: oblique;
     }

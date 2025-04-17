@@ -13,4 +13,8 @@ export default [
     path: ':id',
     loadComponent: () => import('./product-detail/product-detail.component'),
   },
+  {
+    path: ':id/edit',
+    loadComponent: () => import('./product-edit/product-edit.component'),
+  },
 ] as Routes;
